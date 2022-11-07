@@ -11,6 +11,30 @@ import numpy as np
 import scipy.sparse as sp
 import torch
 
+class Gendata:
+    def __init__(self,feat_data,labels):
+        self.feat_data=feat_data
+        self.labels=labels
+
+    def sdata(self):
+        graph = {}
+        for i in range(self.feat_data.size(0)):
+            graph[i] = []
+            for j in range(self.feat_data.size(0)):
+                graph[i].append(j)
+        G = nx.from_dict_of_lists(graph)
+        edge_list = adj_list_from_dict(graph)
+        adj = normalize_adj(edge_list)
+
+        data = {
+            'adj': adj,
+            'edge_list': edge_list,
+            'features': self.feat_data,
+            'labels': self.labels,
+            'G': G,
+        }
+        return data
+
 
 class Data:
     def __init__(self, dataset_str):
@@ -312,3 +336,4 @@ def normalize_adj(edge_list):
     v = deg_inv_sqrt[row] * weight * deg_inv_sqrt[col]
     norm_adj = torch.sparse.FloatTensor(edge_list, v)
     return norm_adj
+
