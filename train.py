@@ -261,3 +261,5 @@ def linkpred_score(z, pos_edges, neg_edges):
     auc_score = roc_auc_score(true_score, pred_score)
     ap_score = average_precision_score(true_score, pred_score)
     return auc_score, ap_score
+
+# 测试GitHub变不变绿
